@@ -1,3 +1,5 @@
+// import test from './test';
 import apiClient from './apiClient';
 
-export default apiClient;
+// export {test, apiClient};
+export {apiClient};
