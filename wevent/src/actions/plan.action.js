@@ -14,9 +14,28 @@ export const planActions = {
     selectEvent
 };
 
-function getPlans()
+function getPlans(user_id)
 {
-    
+    return (dispatch) => {
+        apiClient.getPlans(user_id)
+        .then(result => {
+            console.log('create plan Result', result);
+            dispatch(gotPlans(result.data.results));
+            // return result.data.results;
+        })
+        .catch(error => {
+            console.log('Create plan error', error);
+            // return [];
+        });
+    }
+
+    function gotPlans(plans)
+    {
+        return {
+            type: planConstants.GET_PLANS,
+            plans
+        }
+    }
 }
 
 function changeTriggerOption(trigger_option)
@@ -82,6 +101,8 @@ function selectPlan(plan_id)
 function createPlan(name, start, trigger_option, host_id)
 {
     return (dispatch) => {
+        start = Math.floor(start.getTime() / 1000);
+        // console.log('createPlan', name, start, trigger_option, host_id);
         apiClient.createPlan(name, start, trigger_option, host_id)
         .then(result => {
             console.log('create plan Result', result);

@@ -16,67 +16,70 @@ const initialState = {
         trigger_option: null,
         invitees: [],
         votes: [],
-        selected_event: null
+        selected_event: null,
+        start: null
     }
 };
 
 export function plan(state = initialState, action) {
-
+    var newState = {...state};
+    // console.log('reduce plan', newState === state);
     switch (action.type) {
         case planConstants.GET_PLANS:
-            // To be implemented
-            return state;
+            newState.plans = [...action.plans];
+            console.log('GET_PLANS reducer', newState.plans, newState === state, newState.plans === state.plan)
+            return newState;
         case planConstants.SELECT_PLAN:
-            var plan = state.plans.filter(plan => plan.plan_id === action.plan_id);
-            if(plan.length > 0)
+            var plans = state.plans.filter(plan => plan.plan_id === action.plan_id);
+            if(plans.length > 0)
             {
-                state.activePlan = plan[0];
+                newState.activePlan = plans[0];
             }
-            return state;
+            return newState;
         case planConstants.CHANGE_NAME:
-            state.activePlan.name = action.name;
-            return state;
+            newState.activePlan = {...state.activePlan, name : action.name};
+            return newState;
         case planConstants.CHANGE_START:
-            state.activePlan.start = action.start;
-            return state;
+            newState.activePlan = {...state.activePlan, start : action.start};
+            return newState;
         case planConstants.CHANGE_TRIGGER_OPTION:
-            state.activePlan.trigger_option = action.trigger_option;
-            return state;
+            newState.activePlan = {...state.activePlan, trigger_option : action.trigger_option};
+            return newState;
         case planConstants.RECEIVE_PLAN_ID:
-            state.activePlan.plan_id = action.plan_id;
-            return state;
+            newState.activePlan = {...state.activePlan, plan_id : action.plan_id};
+            return newState;
         case planConstants.ADD_INVITEE:
             // plan_id, user_id
+            
             if(!state.activePlan.invitees.includes(action.user_id))
-                state.activePlan.invitees.push(action.user_id);
-            return state;
+                newState.activePlan.invitees = [ ...newState.activePlan.invitees, action.user_id];
+            return newState;
         case planConstants.ADD_EVENT:
             //plan_id, event_id
-            
             if(state.activePlan.votes.filter(
                 vote => vote.event_id === action.event.event_id).length === 0)
             {
-                state.activePlan.votes.push({event: action.event, users: []});
+                newState.activePlan.votes = [...newState.activePlan.votes,{event: action.event, users: []}];
             }
-            return state;
+            return newState;
         case planConstants.VOTE:
             
             if(state.activePlan.votes.filter(
                 vote => vote.event_id === action.event.event_id).length === 0)
             {
-                state.activePlan.votes = state.activePlan.votes.map(vote =>{
+                newState.activePlan.votes = state.activePlan.votes.map(vote =>{
                     if(vote.event_id === action.event_id)
                     {
                         if(!vote.users.includes(action.user_id))
-                            vote.users.push(action.user_id);
+                            vote.users = [...vote.users, action.user_id];
                     }
                     return vote;
                 });
             }
-            return state;
+            return newState;
         case planConstants.SELECT_EVENT:
-            state.activePlan.select_event = action.event_id;
-            return state;
+            newState.activePlan.select_event = action.event_id;
+            return newState;
         case planConstants.CREATE_PLAN:
             return state;
         default:

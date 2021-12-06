@@ -1,10 +1,13 @@
 
 import * as React from 'react';
+import { useTheme } from '@mui/material/styles';
+import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import OutlinedInput from '@mui/material/OutlinedInput';
 import Button from '@mui/material/Button';
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -16,11 +19,32 @@ import {eventActions} from '../../actions';
 const CATEGORIES = ["Food & Drink"];
 const NEIGHBORHOODS = ["Flatblush"];
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
-function EventSearch({ changeNeighborhood,
+function getStyles(name, personName, theme) {
+    return {
+      fontWeight:
+        !personName || personName.indexOf(name) === -1
+          ? theme.typography.fontWeightRegular
+          : theme.typography.fontWeightMedium,
+    };
+  }
+
+function EventSearch({ event,
+                        changeNeighborhood,
                         changeCategory,
                         changeStart})
 {
+    const theme = useTheme();
     var neighborhoodOnChange = function(neighborhood)
     {
         changeNeighborhood(neighborhood);
@@ -33,77 +57,11 @@ function EventSearch({ changeNeighborhood,
 
     var startOnChange = function(newValue)
     {
-        changeStart(newValue.getTime() / 1000);
+        changeStart(Math.floor(newValue.getTime() / 1000));
     }
-
-
-
-    function range(start, end) {
-    return Array(end - start + 1).fill().map((_, idx) => start + idx)
-    }
-      
-
-    var props = [
-        {
-            inputValue: "Neighborhood",
-            inputLabel : 'neighborhood-input-label',
-            
-            selects: [
-                {
-                    labelId : 'neighborhood-label',
-                    id: 'neighborhood',
-                    onChange: neighborhoodOnChange,
-                    value: "Flatblush",values: NEIGHBORHOODS
-                }
-            ]
-            
-        },
-        {
-            inputValue: "Category",
-            inputLabel : 'category-input-label',
-            selects: [
-                {
-                    labelId : 'category-label',
-                    id: 'category',
-                    onChange: categoryOnChange,
-                    value: "Food & Drink",
-                    values: CATEGORIES
-                }
-            ]
-        },
-        {
-            inputValue: "Start",
-            inputLabel : 'start-input-label',
-            onChange: startOnChange,
-            value : new Date()
-            // selects: [
-            //     {
-            //         labelId : 'start-hour-label',
-            //         id: 'start-hour',
-            //         onChange: startHourOnChange,
-            //         value: "0",
-            //         values: range(1, 12)
-            //     },
-            //     {
-            //         labelId : 'start-minute-label',
-            //         id: 'start-minute',
-            //         onChange: startMinuteOnChange,
-            //         value: "0",
-            //         values: range(0, 59)
-            //     },
-            //     {
-            //         labelId : 'start-APM-label',
-            //         id: 'start-APM',
-            //         onChange: startAPMOnChange,
-            //         value: "AM",
-            //         values: ["AM", "PM"]
-            //     }
-            // ]
-
-        }
-    ];
 
     return (
+    <Container maxWidth="80vw">
     <Box
     component="form"
     sx={{
@@ -117,29 +75,39 @@ function EventSearch({ changeNeighborhood,
                 <Select
                     labelId="neighborhood-label"
                     id="neighborhood"
-                    value="Flatblush"
+                    value={0}
                     label="neighborhood"
                     onChange={neighborhoodOnChange}
+                    input={<OutlinedInput label="Name" />}
+                    MenuProps={MenuProps}
                 >
                     {
-                        NEIGHBORHOODS.map(value => {
-                            <MenuItem value={value}>{value}</MenuItem>
-                        })
+                        NEIGHBORHOODS.map((value,index) => (
+                            <MenuItem name={value} value={index} style={getStyles(value, event.searchEvent.neighborhood, theme)}>
+                                {value}
+                            </MenuItem>
+                        ))
                     }
-                
+
                 </Select>
+        </FormControl>
+        <FormControl fullWidth>
             <InputLabel id="category-input-label">Category</InputLabel>
                 <Select
                     labelId="category-label"
                     id="category"
-                    value="Food & Drink"
+                    value={0}
                     label="category"
                     onChange={categoryOnChange}
+                    input={<OutlinedInput label="Name" />}
+                    MenuProps={MenuProps}
                 >
                     {
-                        CATEGORIES.map(value => {
-                            <MenuItem value={value}>{value}</MenuItem>
-                        })
+                        CATEGORIES.map((value,index) => (
+                            <MenuItem name={value} value={index} style={getStyles(value, event.searchEvent.category, theme)}>
+                                {value}
+                            </MenuItem>
+                            ))
                     }
                 
                 </Select>
@@ -151,49 +119,15 @@ function EventSearch({ changeNeighborhood,
                 onChange={startOnChange}
                 />
             </LocalizationProvider>
-        {/* {
-            props.map(prop => {
-                
-                
-                prop.inputValue === "start" ? 
-                (
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DateTimePicker
-                        renderInput={(props) => <TextField {...props} />}
-                        label={prop.inputLabel}
-                        value={prop.value}
-                        onChange={prop.onChange}
-                      />
-                    </LocalizationProvider>
-                  )
-                : (<InputLabel id={prop.inputLabel}>{prop.inputValue}</InputLabel>
-                    <Select
-                            labelId={select.labelId}
-                            id={select.id}
-                            value={select.value}
-                            label={select.value}
-                            onChange={onChange}
-                        >
-                            {
-                                select.values.map(value => {
-                                    <MenuItem value={value}>{value}</MenuItem>
-                                })
-                            }
-                        
-                        </Select>
-                    )
-                
-            })
-            
-        } */}
-        </FormControl>
         
+        </FormControl>
     </Box>
+    </Container>
     )
 }
 
 function mapState(state) {
-    return {};
+    return {event: state.event};
 }
 const actionCreators = {
     changeCategory: eventActions.changeCategory,

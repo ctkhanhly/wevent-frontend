@@ -17,13 +17,14 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
 import { connect } from 'react-redux';
 import {planActions} from '../../actions';
 import {EventForPlanFeed} from '../Event';
 import { history } from '../../utilities';
 
 function Plan({plan, addInvitee}) {
-    var date = new Date(plan.start * 1000);
+    var date = new Date(plan.start * 1000).toString();
     const [inviteeText, setInviteeText] = useState("");
     const inviteeOnChange = e => {
         setInviteeText(e.target.value);
@@ -41,6 +42,7 @@ function Plan({plan, addInvitee}) {
     };
 
     return (
+      <Container maxWidth="80vw">
     <Card sx={{ maxWidth: '70vw' }}>
       <CardHeader
         
@@ -77,11 +79,12 @@ function Plan({plan, addInvitee}) {
       {/* <Button variant="contained" onClick={()=>history.push("/searchEvents")} >Add Event</Button> */}
       
     </Card>
+    </Container>
   );
 }
 
 function mapState(state) {
- return {};
+ return {plan: state.plan.activePlan};
 }
 
 const actionCreators = {

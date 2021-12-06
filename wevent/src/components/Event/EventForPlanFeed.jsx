@@ -11,10 +11,11 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import Container from '@mui/material/Container';
 import {planActions} from '../../actions';
 import { connect } from 'react-redux';
 
-function EventForPlanFeed({event, plan, vote, selectEvent}) {
+function EventForPlanFeed({event, numVotes, plan, vote, selectEvent}) {
 
     var updateVote = function()
     {
@@ -28,6 +29,7 @@ function EventForPlanFeed({event, plan, vote, selectEvent}) {
     }
 
   return (
+    <Container maxWidth="80vw">
     <Card sx={{ maxWidth: '70vw' }}>
       <CardHeader
         
@@ -57,7 +59,7 @@ function EventForPlanFeed({event, plan, vote, selectEvent}) {
         </Typography>
         
         <Typography variant="body2" color="text.secondary">
-        <ThumbUpAltIcon/> {event.votes.length}
+        <ThumbUpAltIcon/> {numVotes}
         </Typography>
 
       </CardContent>
@@ -72,6 +74,7 @@ function EventForPlanFeed({event, plan, vote, selectEvent}) {
         </CardActions>
       
     </Card>
+    </Container>
   );
 }
 

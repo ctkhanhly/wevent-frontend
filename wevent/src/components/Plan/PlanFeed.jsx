@@ -13,19 +13,16 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PeopleIcon from '@mui/icons-material/People';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
 import {EventForPlanFeed} from '../Event';
 
-export function PlanFeed(plan) {
-    var date = new Date(plan.start * 1000);
+export function PlanFeed({plan}) {
+    var date = new Date(plan.start * 1000).toString();
+    console.log('Plan Feed', plan);
     return (
-    <Card sx={{ maxWidth: '70vw' }}>
+      <Container maxWidth="80vw">
+    <Card sx={{ maxWidth: '70vw' , 'color': 'blue'}}>
       <CardHeader
-        
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
         title={plan.name}
         subheader={date}
       />
@@ -36,12 +33,13 @@ export function PlanFeed(plan) {
         <Divider light />
         {
           plan.votes.map(vote=>{
-            <EventForPlanFeed event={vote.event}/>
+            <EventForPlanFeed event={vote.event} numVotes={vote.users.length}/>
           })
         }
         {/* To do: create Get Plans API and display Event details for this plan */}
       </CardContent>
       
     </Card>
+    </Container>
   );
 }

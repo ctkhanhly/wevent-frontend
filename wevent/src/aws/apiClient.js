@@ -20,7 +20,21 @@ class ApiClient
             queryParams: { neighborhood, start, category }
         };
         var body = {};
-        return invokeApi(pathParams, pathTemplate, method, additionalParams, body);
+        return this.invokeApi(pathParams, pathTemplate, method, additionalParams, body);
+    }
+
+    getPlans(user_id)
+    {
+        var pathParams = {};
+        var pathTemplate = '/getPlans';
+        var method = 'GET';
+        var additionalParams = {
+            queryParams: {
+                "user_id": user_id
+            }
+        };
+        var body = {};
+        return this.invokeApi(pathParams, pathTemplate, method, additionalParams, body);    
     }
 
     createPlan(name, start, trigger_option, host_id)
@@ -30,7 +44,7 @@ class ApiClient
         var method = 'POST';
         var additionalParams = {};
         var body = {name, start, trigger_option, host_id};
-        return invokeApi(pathParams, pathTemplate, method, additionalParams, body);    
+        return this.invokeApi(pathParams, pathTemplate, method, additionalParams, body);    
     }
 
     updatePlan(body)
@@ -39,7 +53,7 @@ class ApiClient
         var pathTemplate = '/updatePlan';
         var method = 'Put';
         var additionalParams = {};
-        return invokeApi(pathParams, pathTemplate, method, additionalParams, body); 
+        return this.invokeApi(pathParams, pathTemplate, method, additionalParams, body); 
     }
 
     invokeApi(pathParams, pathTemplate, method, additionalParams, body)

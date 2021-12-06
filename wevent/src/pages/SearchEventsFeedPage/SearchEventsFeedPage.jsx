@@ -23,7 +23,7 @@ function SearchEventsPage({event, addEvents, searchEvents})
     return(
         <div>
             {
-                showFeed? event.events.map(e => <EventFeed {...e} />): 
+                showFeed? event.events.map(e => (<EventFeed {...e} />)): 
                 (<EventSearch searchEvent={event.searchEvent}/>)
             }
             <Button variant="contained" onClick={handleAddEvents} >Add Selected Events</Button>

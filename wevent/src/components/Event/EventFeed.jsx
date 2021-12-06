@@ -10,10 +10,12 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import Container from '@mui/material/Container';
 
 export default function EventFeed({event}) {
 
   return (
+    <Container maxWidth="80vw">
     <Card sx={{ maxWidth: '70vw' }}>
       <CardHeader
         
@@ -45,6 +47,7 @@ export default function EventFeed({event}) {
       </CardContent>
       
     </Card>
+    </Container>
   );
 }
 

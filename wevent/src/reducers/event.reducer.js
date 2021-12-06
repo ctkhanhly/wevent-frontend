@@ -11,40 +11,40 @@ const initialState = {
     events: [],
     searchEvent: {
         name: null,
-        neighborhood: null,
-        category: null
+        neighborhood: "Food & Drink",
+        category: "Flatblush"
     }
 };
 
 export function event(state = initialState, action) {
-
+    var newState = {...state};
     switch (action.type) {
         case eventConstants.SEARCH_EVENTS:
-            state.events = action.events.map(event=>{
+            newState.events = action.events.map(event=>{
                 event.selected = false;
                 return event;
             });
-            return state;
+            return newState;
         case eventConstants.SELECT_EVENT:
             // state.selected_events.push(event_id);
-            state = state.events.map(event=> {
+            newState.events = state.events.map(event=> {
                 if(event.event_id === action.event_id){
                     event.selected = true;
                 }
                 return event;
             })
-            return state;
+            return newState;
         case eventConstants.ADD_EVENTS:
             return state;
         case eventConstants.CHANGE_CATEGORY:
-            state.searchEvent.category = action.category;
-            return state;
+            newState.searchEvent.category = action.category;
+            return newState;
         case eventConstants.CHANGE_START:
-            state.searchEvent.start = action.start;
-            return state;
+            newState.searchEvent.start = action.start;
+            return newState;
         case eventConstants.CHANGE_NEIGHBORHOOD:
-            state.searchEvent.neighborhood = action.neighborhood;
-            return state;
+            newState.searchEvent.neighborhood = action.neighborhood;
+            return newState;
         default:
             return state;
     }
