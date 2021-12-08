@@ -56,6 +56,16 @@ class ApiClient
         return this.invokeApi(pathParams, pathTemplate, method, additionalParams, body); 
     }
 
+    getEventMetaData()
+    {
+        var pathParams = {};
+        var pathTemplate = '/getEventMetaData';
+        var method = 'Get';
+        var additionalParams = {};
+        var body = {};
+        return this.invokeApi(pathParams, pathTemplate, method, additionalParams, body); 
+    }
+
     invokeApi(pathParams, pathTemplate, method, additionalParams, body)
     {
         return apigClientAws.invokeApi(pathParams, pathTemplate, method, additionalParams, body)

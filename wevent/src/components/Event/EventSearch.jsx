@@ -15,9 +15,10 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import { connect } from 'react-redux';
 import {eventActions} from '../../actions';
+import { neighborhoods, categories } from '../../utilities/eventmetadata';
 
-const CATEGORIES = ["Food & Drink"];
-const NEIGHBORHOODS = ["Flatblush"];
+const CATEGORIES = categories;
+const NEIGHBORHOODS = neighborhoods;
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
