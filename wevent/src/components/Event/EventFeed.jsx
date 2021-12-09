@@ -11,17 +11,27 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Container from '@mui/material/Container';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import {eventActions} from '../../actions';
+import { connect } from 'react-redux';
 
-export default function EventFeed({event}) {
+
+
+function EventFeed({eventState, event, selectEvent}) {
+  var handleSelect = function (e){
+    selectEvent(event.event_id);
+    console.log(event, event.selected);
+  };
 
   return (
-    <Container maxWidth="80vw">
+    <Container maxWidth="50vw">
     <Card sx={{ maxWidth: '70vw' }}>
       <CardHeader
         
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
+          <IconButton aria-label="settings" onClick={handleSelect}>
+            {event.selected? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon/>}
           </IconButton>
         }
         title={event.name}
@@ -30,7 +40,7 @@ export default function EventFeed({event}) {
       <CardMedia
         component="img"
         height="194"
-        image={event.imageUrl}
+        image={event.img_url}
         alt={event.name}
       />
       <CardContent>
@@ -51,4 +61,14 @@ export default function EventFeed({event}) {
   );
 }
 
-export { EventFeed };
+// pass eventState to force re-render
+
+function mapState(state) {
+  return {eventState: state.event};
+}
+const actionCreators = {
+  selectEvent: eventActions.selectEvent
+};
+
+const connectedRoomComponent = connect(mapState, actionCreators)(EventFeed);
+export { connectedRoomComponent as EventFeed };

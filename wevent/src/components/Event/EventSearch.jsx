@@ -1,5 +1,5 @@
 
-import * as React from 'react';
+import React, {useState} from 'react';
 import { useTheme } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -46,19 +46,21 @@ function EventSearch({ event,
                         changeStart})
 {
     const theme = useTheme();
-    var neighborhoodOnChange = function(neighborhood)
+    const [date, setDate] = useState(new Date());
+    var neighborhoodOnChange = function(e)
     {
-        changeNeighborhood(neighborhood);
+        changeNeighborhood(e.target.value);
     }
 
-    var categoryOnChange = function(category)
+    var categoryOnChange = function(e)
     {
-        changeCategory(category);
+        changeCategory(e.target.value);
     }
 
     var startOnChange = function(newValue)
     {
         changeStart(Math.floor(newValue.getTime() / 1000));
+        setDate(newValue);
     }
 
     return (
@@ -76,7 +78,7 @@ function EventSearch({ event,
                 <Select
                     labelId="neighborhood-label"
                     id="neighborhood"
-                    value={0}
+                    value={event.searchEvent.neighborhood}
                     label="neighborhood"
                     onChange={neighborhoodOnChange}
                     input={<OutlinedInput label="Name" />}
@@ -84,7 +86,7 @@ function EventSearch({ event,
                 >
                     {
                         NEIGHBORHOODS.map((value,index) => (
-                            <MenuItem name={value} value={index} style={getStyles(value, event.searchEvent.neighborhood, theme)}>
+                            <MenuItem key={value} name={value} value={value} style={getStyles(event.searchEvent.neighborhood, NEIGHBORHOODS, theme)}>
                                 {value}
                             </MenuItem>
                         ))
@@ -97,7 +99,7 @@ function EventSearch({ event,
                 <Select
                     labelId="category-label"
                     id="category"
-                    value={0}
+                    value={event.searchEvent.category}
                     label="category"
                     onChange={categoryOnChange}
                     input={<OutlinedInput label="Name" />}
@@ -105,7 +107,7 @@ function EventSearch({ event,
                 >
                     {
                         CATEGORIES.map((value,index) => (
-                            <MenuItem name={value} value={index} style={getStyles(value, event.searchEvent.category, theme)}>
+                            <MenuItem key={value} name={value} value={value} style={getStyles(event.searchEvent.category, CATEGORIES, theme)}>
                                 {value}
                             </MenuItem>
                             ))
@@ -116,7 +118,8 @@ function EventSearch({ event,
                 <DateTimePicker
                 renderInput={(props) => <TextField {...props} />}
                 label="start-label"
-                value={new Date()}
+                // views={["year", "month", "date", "hour", "minute"]}
+                value={date}
                 onChange={startOnChange}
                 />
             </LocalizationProvider>

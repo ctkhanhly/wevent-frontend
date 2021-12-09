@@ -56,21 +56,21 @@ function Plan({ activePlan,
           required
           id="name"
           label="Name"
-          defaultValue=""
+          defaultValue={activePlan.name}
           onChange={handleChangeName}
         />
         <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
                 renderInput={(props) => <TextField {...props} />}
                 label="start-label"
-                value={new Date()}
+                value={activePlan.start}
                 onChange={handleChangeStart}
                 />
             </LocalizationProvider>
         <TextField
           id="trigger_option"
           label="trigger_option"
-          defaultValue=""
+          defaultValue={activePlan.trigger_option}
           onChange={handleChangeTriggerOption}
         />
 

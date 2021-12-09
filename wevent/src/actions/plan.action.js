@@ -144,16 +144,14 @@ function vote(plan_id, event_id, user_id)
     }
 }
 
-function addEvent(plan_id, event)
+function addEvent(dispatch, plan_id, event)
 {
-    return (dispatch) => {
-        apiClient.updatePlan({
-            update_type: 'add_event',
-            plan_id: plan_id,
-            event_id: event.event_id
-        });
-        dispatch(added_event());
-    }
+    apiClient.updatePlan({
+        update_type: 'add_event',
+        plan_id: plan_id,
+        event_id: event.event_id
+    });
+    dispatch(added_event());
 
     function added_event()
     {

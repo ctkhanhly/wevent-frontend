@@ -3,16 +3,19 @@ import Button from '@mui/material/Button';
 import {EventSearch, EventFeed} from '../../components/Event';
 import { connect } from 'react-redux';
 import {eventActions} from '../../actions';
+import { history } from '../../utilities';
 
 
 
-function SearchEventsPage({event, addEvents, searchEvents})
+function SearchEventsPage({activePlan, event, addEvents, searchEvents})
 {
     const [showFeed, setShowFeed] = useState(false);
     
 
     var handleAddEvents = function(e){
-        addEvents(event.events);
+        addEvents(activePlan.plan_id, event.events);
+        // history.push('/createPlan');
+        // history.go(0);
     };
 
     var handleSearch = function(e){
@@ -23,7 +26,7 @@ function SearchEventsPage({event, addEvents, searchEvents})
     return(
         <div>
             {
-                showFeed? event.events.map(e => (<EventFeed {...e} />)): 
+                showFeed? event.events.map(e => (<EventFeed event={e} key={e.event_id}/>)) :
                 (<EventSearch searchEvent={event.searchEvent}/>)
             }
             <Button variant="contained" onClick={handleAddEvents} >Add Selected Events</Button>
@@ -35,7 +38,7 @@ function SearchEventsPage({event, addEvents, searchEvents})
 };
 
 function mapState(state) {
-    return {event: state.event};
+    return {event: state.event, activePlan: state.plan.activePlan};
 }
 const actionCreators = {
     addEvents: eventActions.addEvents,

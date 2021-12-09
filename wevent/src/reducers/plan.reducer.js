@@ -12,12 +12,12 @@ const initialState = {
     plans: [],
     activePlan: {
         plan_id: null,
-        name: null,
-        trigger_option: null,
+        name: "",
+        trigger_option: "",
         invitees: [],
         votes: [],
         selected_event: null,
-        start: null
+        start: new Date()
     }
 };
 

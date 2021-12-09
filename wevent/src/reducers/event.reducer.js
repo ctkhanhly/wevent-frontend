@@ -27,12 +27,13 @@ export function event(state = initialState, action) {
             return newState;
         case eventConstants.SELECT_EVENT:
             // state.selected_events.push(event_id);
-            newState.events = state.events.map(event=> {
+            newState.events = newState.events.map(event=> {
                 if(event.event_id === action.event_id){
-                    event.selected = true;
+                    event.selected = !event.selected;
                 }
                 return event;
-            })
+            });
+            newState.events = [...newState.events];
             return newState;
         case eventConstants.ADD_EVENTS:
             return state;

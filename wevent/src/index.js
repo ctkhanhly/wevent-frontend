@@ -4,13 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {test} from './aws';
-import store from './store.js';
+import {store, persistor} from './store.js';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
  
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={store} persistor={persistor}>
       <App />
   </Provider>,
   document.getElementById('root')

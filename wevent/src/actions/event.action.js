@@ -53,7 +53,7 @@ function addEvents(plan_id, events)
         events.forEach(event => {
             if(event.selected)
             {
-                planActions.addEvent(plan_id, event);
+                planActions.addEvent(dispatch, plan_id, event);
             }
         });
         dispatch(added_events());
