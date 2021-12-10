@@ -19,6 +19,9 @@ function searchEvents(start, category, neighborhood)
             var events = result.data.results;
             dispatch(searched(events));
         })
+        .catch(error => {
+            console.log(error)
+        })
         
     }
 
