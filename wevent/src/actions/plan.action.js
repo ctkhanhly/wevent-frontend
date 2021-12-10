@@ -101,7 +101,7 @@ function selectPlan(plan_id)
 function createPlan(name, start, trigger_option, host_id)
 {
     return (dispatch) => {
-        start = new Date(start).getTime() / 1000
+        start = new Date(start).getTime()
         console.log('createPlan', name, start, trigger_option, host_id);
         apiClient.createPlan(name, start, trigger_option, host_id)
         .then(result => {

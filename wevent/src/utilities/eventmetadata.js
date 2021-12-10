@@ -19,6 +19,6 @@ function callback(response){
     console.log(neighborhoods);
     
 }
-getInfo()
+//getInfo()
 
 export {neighborhoods, categories}
