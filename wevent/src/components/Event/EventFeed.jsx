@@ -23,10 +23,11 @@ function EventFeed({eventState, event, selectEvent}) {
     selectEvent(event.event_id);
     console.log(event, event.selected);
   };
-
+ 
   return (
     <Container maxWidth="50vw">
     <Card sx={{ maxWidth: '70vw' }}>
+    <h1>{event.event_name}</h1>
       <CardHeader
         
         action={
@@ -45,12 +46,14 @@ function EventFeed({eventState, event, selectEvent}) {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {event.description}
+          <h5>Description:</h5> {event.description}
         </Typography>
         <Typography variant="body2" color="text.secondary">
+        <h5>Start/End:</h5>
           <AccessTimeIcon/> {event.start} - {event.end}
         </Typography>
         <Typography variant="body2" color="text.secondary">
+        <h5>Location:</h5>
           <LocationOnIcon/> {event.full_address}
         </Typography>
         
