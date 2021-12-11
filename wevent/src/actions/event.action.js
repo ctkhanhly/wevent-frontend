@@ -1,11 +1,9 @@
 import {eventConstants} from '../constants';
-import {planActions} from './plan.action';
 import {apiClient} from '../aws';
 
 export const eventActions = {
     searchEvents,
     selectEvent,
-    addEvents,
     changeCategory,
     changeStart,
     changeNeighborhood
@@ -45,28 +43,6 @@ function selectEvent(event_id)
         return {
             type: eventConstants.SELECT_EVENT,
             event_id
-        }
-    }
-}
-
-
-function addEvents(plan_id, events)
-{
-    return (dispatch) => {
-        events.forEach(event => {
-            if(event.selected)
-            {
-                planActions.addEvent(dispatch, plan_id, event);
-            }
-        });
-        dispatch(added_events());
-    }
-
-    function added_events()
-    {
-        return {
-            type: eventConstants.ADD_EVENTS,
-            events
         }
     }
 }

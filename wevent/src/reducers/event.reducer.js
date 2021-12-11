@@ -35,8 +35,6 @@ export function event(state = initialState, action) {
             });
             newState.events = [...newState.events];
             return newState;
-        case eventConstants.ADD_EVENTS:
-            return state;
         case eventConstants.CHANGE_CATEGORY:
             newState.searchEvent.category = action.category;
             return newState;

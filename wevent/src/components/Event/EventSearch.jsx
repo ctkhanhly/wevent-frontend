@@ -40,7 +40,7 @@ function getStyles(name, personName, theme) {
     };
   }
 
-function EventSearch({ event,
+function EventSearch({  event,
                         changeNeighborhood,
                         changeCategory,
                         changeStart})

@@ -9,7 +9,7 @@ export const planActions = {
     selectPlan,
     createPlan,
     vote,
-    addEvent,
+    addEvents,
     addInvitee,
     selectEvent
 };
@@ -144,20 +144,22 @@ function vote(plan_id, event_id, user_id)
     }
 }
 
-function addEvent(dispatch, plan_id, event)
+function addEvents(events)
 {
-    apiClient.updatePlan({
-        update_type: 'add_event',
-        plan_id: plan_id,
-        event_id: event.event_id
-    });
-    dispatch(added_event());
+    return (dispatch) => {
+        events.forEach(event => {
+            if(event.selected)
+            {
+                dispatch(added_event(event));
+            }
+        });
+    }
 
-    function added_event()
+    function added_event(event)
     {
         return {
             type: planConstants.ADD_EVENT,
-            plan_id, event
+            event
         }
     }
 }
