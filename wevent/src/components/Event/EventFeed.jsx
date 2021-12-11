@@ -42,6 +42,12 @@ function EventFeed({eventState, event, selectEvent}) {
         alt={event.name}
       />
       <CardContent>
+      <Typography variant="subtitle" color="text.primary">
+          Venue:
+          </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {event.venue_name}
+          </Typography>
         <Typography variant="subtitle" color="text.primary">
           Description:
           </Typography>
