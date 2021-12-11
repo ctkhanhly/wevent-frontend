@@ -44,7 +44,7 @@ function EventForPlanFeed({event, numVotes, plan, vote, selectEvent}) {
       <CardMedia
         component="img"
         height="194"
-        image={event.imageUrl}
+        image={event.img_url}
         alt={event.name}
       />
       <CardContent>

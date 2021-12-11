@@ -26,6 +26,7 @@ function Plan({ activePlan,
       activePlan.start,
       activePlan.trigger_option,
       "1");
+    
   };
 
   var handleChangeTriggerOption = function (e){
