@@ -38,6 +38,7 @@ function SearchEventsPage({event, addEvents, searchEvents})
 function mapState(state) {
     return {event: state.event, activePlan: state.plan.activePlan};
 }
+
 const actionCreators = {
     addEvents: planActions.addEvents,
     searchEvents: eventActions.searchEvents

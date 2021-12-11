@@ -29,7 +29,8 @@ export function event(state = initialState, action) {
             // state.selected_events.push(event_id);
             newState.events = newState.events.map(event=> {
                 if(event.event_id === action.event_id){
-                    event.selected = !event.selected;
+                    // event.selected = !event.selected;
+                    event = {...event, selected: !event.selected};
                 }
                 return event;
             });

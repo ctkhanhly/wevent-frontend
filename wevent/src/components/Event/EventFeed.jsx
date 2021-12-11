@@ -17,7 +17,7 @@ import {eventActions} from '../../actions';
 import { connect } from 'react-redux';
 
 
-function EventFeed({eventState, event, selectEvent}) {
+function EventFeed({event, selectEvent}) {
   var handleSelect = function (e){
     selectEvent(event.event_id);
     console.log(event, event.selected);    
@@ -77,7 +77,7 @@ function EventFeed({eventState, event, selectEvent}) {
 // pass eventState to force re-render
 
 function mapState(state) {
-  return {eventState: state.event};
+  return {};
 }
 const actionCreators = {
   selectEvent: eventActions.selectEvent
