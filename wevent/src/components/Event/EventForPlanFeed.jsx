@@ -19,6 +19,7 @@ function EventForPlanFeed({event, numVotes, plan, vote, selectEvent}) {
 
     var updateVote = function()
     {
+        //TODO we need to not hard code this when login is implemented
         var user_id = 1;
         vote(plan.plan_id, event.event_id, user_id);// assume current user is 1
     }

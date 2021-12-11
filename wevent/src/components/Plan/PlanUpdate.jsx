@@ -65,7 +65,7 @@ function Plan({plan, addInvitee}) {
             }
             
         </List>
-        <TextField id="filled-basic" label="Invitee Name" variant="filled" onChange={inviteeOnChange}/>
+        <TextField id="filled-basic" label="Invitee Email Address" variant="filled" onChange={inviteeOnChange}/>
         <Button variant="contained" onClick={handleAddInvitee} >Add Invitee</Button>
         <Divider light />
         {

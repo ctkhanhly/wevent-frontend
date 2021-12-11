@@ -10,23 +10,22 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import {eventActions} from '../../actions';
 import { connect } from 'react-redux';
 
 
-
 function EventFeed({eventState, event, selectEvent}) {
   var handleSelect = function (e){
     selectEvent(event.event_id);
-    console.log(event, event.selected);
+    console.log(event, event.selected);    
   };
-
+ 
   return (
-    <Container maxWidth="50vw">
-    <Card sx={{ maxWidth: '70vw' }}>
+    <Grid fixed maxWidth="sm">
+    <Card sx={{ maxWidth: '70vw', m: 3 }}>
       <CardHeader
         
         action={
@@ -34,8 +33,7 @@ function EventFeed({eventState, event, selectEvent}) {
             {event.selected? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon/>}
           </IconButton>
         }
-        title={event.name}
-        subheader={event.start}
+        title={event.event_name}
       />
       <CardMedia
         component="img"
@@ -44,20 +42,35 @@ function EventFeed({eventState, event, selectEvent}) {
         alt={event.name}
       />
       <CardContent>
+      <Typography variant="subtitle" color="text.primary">
+          Venue:
+          </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {event.venue_name}
+          </Typography>
+        <Typography variant="subtitle" color="text.primary">
+          Description:
+          </Typography>
         <Typography variant="body2" color="text.secondary">
           {event.description}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          <AccessTimeIcon/> {event.start} - {event.end}
+        <Typography variant="subtitle" color="text.primary">
+          Start:
+          </Typography>
+        <Typography variant="body2" color="text.secondary">        
+          <AccessTimeIcon/> {event.start}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="subtitle" color="text.primary">
+          Location:
+          </Typography>
+        <Typography variant="body2" color="text.secondary">        
           <LocationOnIcon/> {event.full_address}
         </Typography>
         
       </CardContent>
       
     </Card>
-    </Container>
+    </Grid>
   );
 }
 
