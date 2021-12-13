@@ -15,7 +15,8 @@ class PlanFeedPage extends React.Component{
         this.handleSelectPlan = this.handleSelectPlan.bind(this);
         
         this.state = { plans: this.props.plan.plans};
-        this.props.getPlans("1");
+        let user_email = JSON.parse(localStorage.getItem("user"))?.email;
+        this.props.getPlans(user_email);
         // this.plans = [
         //     {plan_id:"123", name:"random", votes : 
         //     [
