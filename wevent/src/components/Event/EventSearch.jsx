@@ -73,7 +73,7 @@ function EventSearch({  event,
     noValidate
     autoComplete="off"
     >
-        <FormControl fullWidth>
+        <FormControl fullWidth sx={{ mt: 3 }}>
             <InputLabel id="neighborhood-input-label">Neighborhood</InputLabel>
                 <Select
                     labelId="neighborhood-label"
@@ -94,7 +94,7 @@ function EventSearch({  event,
 
                 </Select>
         </FormControl>
-        <FormControl fullWidth>
+        <FormControl fullWidth sx={{ mt: 3 }}>
             <InputLabel id="category-input-label">Category</InputLabel>
                 <Select
                     labelId="category-label"
@@ -117,7 +117,7 @@ function EventSearch({  event,
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
                 renderInput={(props) => <TextField {...props} />}
-                label="start-label"
+                label="Start Time"
                 // views={["year", "month", "date", "hour", "minute"]}
                 value={date}
                 onChange={startOnChange}
