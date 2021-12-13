@@ -63,7 +63,6 @@ class PlanFeedPage extends React.Component{
         var THIS = this;
         return (
             <Container maxWidth="80vw">
-                
             {
                 this.props.plan.plans.map(p=> 
                     (<div id={p.plan_id} onClick={THIS.handleSelectPlan} >

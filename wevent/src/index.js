@@ -5,10 +5,22 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {test} from './aws';
 import {store, persistor} from './store.js';
-import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
- 
+import 'bulma/css/bulma.min.css';
+import Amplify from 'aws-amplify';
+import config from './config';
+import * as serviceWorker from './serviceWorker';
+
+Amplify.configure({
+  Auth: {
+      mandatorySignIn: true,
+      region: config.cognito.REGION,
+      userPoolId: config.cognito.USER_POOL_ID,
+      userPoolWebClientId: config.cognito.APP_CLIENT_ID
+  }
+});
+
 ReactDOM.render(
   <Provider store={store} persistor={persistor}>
       <App />

@@ -11,13 +11,15 @@ import { history } from  './utilities'
 import Loader from './components/Loader';
 import HomePage from './pages/HomePage';
 import CreatePlanPage from './pages/CreatePlanPage';
+import NavBar from './pages/NavBar/NavBar';
+import Footer from './pages/Footer/Footer';
 // import {PrivateRoute} from './components/PrivateRoute';
 
 class App extends Component {
   render() {
     const menu = routes.map((route, index) => {
       return (route.component) ? (
-          <Route
+        <Route
               key={index}
               path={route.path}
               exact={route.exact}
@@ -25,19 +27,23 @@ class App extends Component {
               element={<route.component/> }
               // render={props => (
               //     <route.component {...props} />
-              // )} 
-          />
+              // )}
+        />
       ) : (null);
     });
 
     return (
         <Suspense fallback={<Loader/>}>
           <Router history={history}>
-            <Routes>
-                {menu}
-                {/* <Route exact path="/" element={<HomePage/>} />
-                <Route exact path="/createPlan" element={<CreatePlanPage/>} /> */}
-            </Routes>
+            <div>
+              <NavBar />
+              <Routes>
+                  {menu}
+                  {/* <Route exact path="/" element={<HomePage/>} />
+                  <Route exact path="/createPlan" element={<CreatePlanPage/>} /> */}
+              </Routes>
+              <Footer />
+            </div>
           </Router>  
         </Suspense>
     );
