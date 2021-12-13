@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Auth, container } from 'aws-amplify';
 import { history } from '../../utilities';
-
+import logo from './w_logo.jpg';
 import { contains } from 'jquery';
 export default class NavBar extends Component {
   
@@ -32,7 +32,7 @@ export default class NavBar extends Component {
       <nav className="navbar" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
           <a className="navbar-item" href="/">
-            <img src="wevent.png" width="112" height="28" alt="wevent logo" />
+            <img src={logo} width="28" height="28" alt="wevent logo" />
           </a>
         </div>
 
@@ -86,7 +86,7 @@ export default class NavBar extends Component {
     (<nav className="navbar" role="navigation" aria-label="main navigation">
     <div className="navbar-brand">
       <a className="navbar-item" href="/">
-        <img src="wevent.png" width="112" height="28" alt="wevent logo" />
+      <img src={logo} width="28" height="28" alt="wevent logo" />
       </a>
     </div>
 
