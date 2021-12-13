@@ -28,7 +28,7 @@ export default class NavBar extends Component {
   }
   
   render() {
-    return (
+    return (localStorage.getItem('user')) ? (
       <nav className="navbar" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
           <a className="navbar-item" href="/">
@@ -82,6 +82,46 @@ export default class NavBar extends Component {
           </div>
         </div>
       </nav>
-    )
+    ) :
+    (<nav className="navbar" role="navigation" aria-label="main navigation">
+    <div className="navbar-brand">
+      <a className="navbar-item" href="/">
+        <img src="wevent.png" width="112" height="28" alt="wevent logo" />
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" className="navbar-menu">
+      <div className="navbar-end">
+        <div className="navbar-item">
+          {this.state.user && (
+            <p>
+              Hello {this.state.user.name}
+            </p>
+          )}
+          <div className="buttons">
+          {!this.state.user && (
+            <div>
+            <button className="button is-primary" variant="contained" onClick={()=>{
+              history.push("/register");
+              history.go(0);
+            }} >Register</button>
+            <button className="button is-light" variant="contained" onClick={()=>{
+              history.push("/login");
+              history.go(0);
+            }} >Login</button>
+            </div>
+          )}
+          {this.state.user && (
+            <button onClick={this.handleLogOut} className="button is-light">
+              Log out
+            </button>
+          )}
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+)
+
   }
 }
