@@ -21,11 +21,12 @@ function Plan({ activePlan,
 }) {
 
   var handleCreatePlan = function (){
+    let user_email = JSON.parse(localStorage.getItem("user"))?.email;
     createPlan(
       activePlan.name, 
       activePlan.start,
       activePlan.trigger_option,
-      "1");
+      user_email);
     
   };
 
