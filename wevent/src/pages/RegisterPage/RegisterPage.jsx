@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import FormErrors from "../../components/Auth/FormErrors";
 import Validate from "../../components/Auth/FormValidation";
 import { Auth } from "aws-amplify";
-
+import { history } from '../../utilities';
 class RegisterPage extends Component {
   state = {
     email: "",
@@ -50,7 +50,8 @@ class RegisterPage extends Component {
           }
         });
         console.log(signUpResponse);
-        this.props.history.push("/Verify");
+        history.push("/Verify");
+        history.go(0);
     } catch(error) {
       let err = null;
       !error.message ? err = {"message": error} : err = error;
