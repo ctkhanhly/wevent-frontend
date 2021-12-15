@@ -18,38 +18,63 @@ import {EventForPlanFeed} from '../Event';
 import {planActions} from '../../actions';
 import { connect } from 'react-redux';
 import TextField from '@mui/material/TextField';
+import EditIcon from '@mui/icons-material/Edit';
 
 function PlanFeed({plan, addInvitee}) {
     var date = new Date(plan.start).toString();
+    
 
     console.log('Plan Feed', plan);
-    return (
+    var user = JSON.parse(localStorage.getItem('user'));
+    return plan.host_id == user.email ? (
       <Container maxWidth="80vw">
-    <Card sx={{ maxWidth: '70vw' , 'color': 'blue'}}>
-      <CardHeader
-        title={plan.name}        
-        subheader={date}
-      />
-      <CardContent>
-      <Typography variant="header1" color="text.primary">
-          Hosted By: {plan.host_id}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          <PeopleIcon/>{plan.invitees.join(', ')}
-        </Typography>
-  
-        <Divider light />
-        {
-          plan.votes.map(vote=>{
-            <EventForPlanFeed event={vote.event} numVotes={vote.users.length}/>
-          })
-        }
-        
-      </CardContent>
-      
-    </Card>
-    </Container>
-  );
+        <Card sx={{ maxWidth: "70vw", color: "blue", background: "white" }}>
+          <CardHeader title={plan.name} subheader={date} />
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              <PeopleIcon />
+              {plan.invitees.join(", ")}
+            </Typography>
+
+            <Divider light />
+            {plan.votes.map((vote) => {
+              <EventForPlanFeed
+                event={vote.event}
+                numVotes={vote.users.length}
+              />;
+            })}
+            <EditIcon
+              style={{
+                fill: "grey",
+              }}
+            />
+          </CardContent>
+        </Card>
+      </Container>
+    ) : (
+      <Container maxWidth="80vw">
+        <Card sx={{ maxWidth: "70vw", color: "blue" }}>
+          <CardHeader title={plan.name} subheader={date} />
+          <CardContent>
+            <Typography variant="header1" color="text.primary">
+              Hosted By: {plan.host_id}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              <PeopleIcon />
+              {plan.invitees.join(", ")}
+            </Typography>
+
+            <Divider light />
+            {plan.votes.map((vote) => {
+              <EventForPlanFeed
+                event={vote.event}
+                numVotes={vote.users.length}
+              />;
+            })}
+          </CardContent>
+        </Card>
+      </Container>
+    );  
 }
 
 function mapState(state) {
