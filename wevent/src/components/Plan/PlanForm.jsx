@@ -6,6 +6,7 @@ import Container from '@mui/material/Container';
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DateTimePicker from "@mui/lab/DateTimePicker";
+import {AlertComponent} from '../../components/Alert';
 import {EventForPlanFeed} from '../Event';
 import { connect } from 'react-redux';
 import {planActions} from '../../actions';
@@ -78,7 +79,7 @@ function Plan({ activePlan,
                 <DateTimePicker
                 renderInput={(props) => <TextField {...props} />}
                 label="start-label"
-                value={activePlan.start}
+                value={activePlan.start || new Date()}
                 onChange={handleChangeStart}
                 />
             </LocalizationProvider>
@@ -101,7 +102,7 @@ function Plan({ activePlan,
       }} >Add Event</Button>
       <Button variant="contained" onClick={handleCreatePlan} >Create Plan</Button>
       <Button variant="contained" onClick={handleClear} >Clear</Button>
-
+      <AlertComponent/>
       </div>
       
     </Box>

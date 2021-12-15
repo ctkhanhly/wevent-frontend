@@ -1,4 +1,4 @@
-import {eventConstants} from '../constants';
+import {eventConstants, alertConstants} from '../constants';
 import {apiClient} from '../aws';
 
 export const eventActions = {
@@ -6,19 +6,29 @@ export const eventActions = {
     selectEvent,
     changeCategory,
     changeStart,
-    changeNeighborhood
+    changeNeighborhood,
+    removeEvents
   };
 
 function searchEvents(start, category, neighborhood)
 {
     return (dispatch) => {
+        dispatch(showSearching("Searching...", "info"));
+        dispatch(clearEvents()); // clear events first to remove confusing details
         apiClient.searchEvents(neighborhood, start, category)
         .then(result => {
             var events = result.data.results;
             dispatch(searched(events));
+            if(events.length === 0){
+                dispatch(warning("Found 0 events"));
+            }
+            else{
+                dispatch(clearAlert());
+            }
         })
-        .catch(error => {
-            console.log(error)
+        .catch(e => {
+            console.log(e);
+            dispatch(error("Cannot search for events"));
         })
         
     }
@@ -28,6 +38,29 @@ function searchEvents(start, category, neighborhood)
         return {
             type: eventConstants.SEARCH_EVENTS,
             events
+        }
+    }
+
+    function clearEvents()
+    {
+        return {
+            type: eventConstants.REMOVE_EVENTS
+        }
+    }
+
+    function showSearching(message)
+    {
+        return {
+            type: alertConstants.CHANGE_MESSAGE,
+            message
+        }
+    }
+
+    function clearAlert()
+    {
+        return {
+            type: alertConstants.CHANGE_MESSAGE,
+            message:""
         }
     }
 }
@@ -91,5 +124,39 @@ function changeNeighborhood(neighborhood)
             type: eventConstants.CHANGE_NEIGHBORHOOD,
             neighborhood
         }
+    }
+}
+
+function removeEvents()
+{
+    return (dispatch) => {
+        dispatch(removed())
+    }
+
+    function removed(){
+        return {
+            type: eventConstants.REMOVE_EVENTS
+        }
+    }
+}
+
+function success(message){
+    return{
+        type: alertConstants.CHANGE_MESSAGE,
+        message, severity:"success"
+    }
+}
+
+function error(message){
+    return{
+        type: alertConstants.CHANGE_MESSAGE,
+        message, severity:"error"
+    }
+}
+
+function warning(message){
+    return{
+        type: alertConstants.CHANGE_MESSAGE,
+        message, severity:"warning"
     }
 }

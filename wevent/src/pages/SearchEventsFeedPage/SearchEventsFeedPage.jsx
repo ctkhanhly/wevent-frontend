@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
 import Button from '@mui/material/Button';
 import {EventSearch, EventFeed} from '../../components/Event';
+import {AlertComponent} from '../../components/Alert';
 import { connect } from 'react-redux';
 import {eventActions, planActions} from '../../actions';
 import { history } from '../../utilities';
 
 
 
-function SearchEventsPage({activePlan, event, addEvents, searchEvents})
+function SearchEventsPage({activePlan, event, addEvents, searchEvents, removeEvents})
 {
     const [showFeed, setShowFeed] = useState(false);
     
@@ -23,6 +24,10 @@ function SearchEventsPage({activePlan, event, addEvents, searchEvents})
         searchEvents(event.searchEvent.start, event.searchEvent.category, event.searchEvent.neighborhood);
     };
 
+    var handleClear = function(e){
+        removeEvents();
+    }
+
     return(
         <div>
             {
@@ -31,7 +36,10 @@ function SearchEventsPage({activePlan, event, addEvents, searchEvents})
             }
             <Button variant="contained" onClick={handleAddEvents} >Add Selected Events</Button>
             <Button variant="contained" onClick={handleSearch} >Search Events</Button>
-            {/* <Button variant="contained" onClick={searchEvents(searchEvent.name, searchEvent.category, searchEvent.neighborhood)} >Search</Button> */}
+            {
+                showFeed && <Button variant="contained" onClick={handleClear} >Clear</Button>
+            }
+            <AlertComponent/>
         </div>
         
     )
@@ -43,7 +51,8 @@ function mapState(state) {
 
 const actionCreators = {
     addEvents: planActions.addEvents,
-    searchEvents: eventActions.searchEvents
+    searchEvents: eventActions.searchEvents,
+    removeEvents: eventActions.removeEvents
 };
 
 const connectedRoomComponent = connect(mapState, actionCreators)(SearchEventsPage);

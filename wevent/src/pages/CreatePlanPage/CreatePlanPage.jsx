@@ -5,6 +5,8 @@ import {PlanForm} from '../../components/Plan';
 export default function CreatePlanPage()
 {
     return(
+        
         <PlanForm />
+    
     )
 };

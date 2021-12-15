@@ -18,6 +18,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import {AlertComponent} from '../../components/Alert';
 import { connect } from 'react-redux';
 import {planActions} from '../../actions';
 import {EventForPlanFeed} from '../Event';
@@ -128,11 +129,12 @@ function Plan({ plan, addInvitee }) {
               users={vote.users}
               key={vote.event.event_id}
             />
-          ))}        
+          ))}    
         </CardContent>
 
         {/* <Button variant="contained" onClick={()=>history.push("/searchEvents")} >Add Event</Button> */}
       </Card>
+      <AlertComponent/>
     </Container>
   )
 }

@@ -1,3 +1,4 @@
+import { convertValueToMeridiem } from '@mui/lab/internal/pickers/time-utils';
 import { planActions } from '../actions';
 import {planConstants} from '../constants';
 
@@ -10,6 +11,7 @@ import {planConstants} from '../constants';
 */
 
 const initialState = {
+    alert: null,
     plans: [],
     activePlan: {
         plan_id: null,
@@ -84,7 +86,7 @@ export function plan(state = initialState, action) {
             });
             return newState;
         case planConstants.SELECT_OFFICIAL_EVENT:
-            newState.activePlan.selected_event = action.event_id;
+            newState.activePlan = { ...newState.activePlan, selected_event: action.event_id};
             return newState;
         case planConstants.REMOVE_ACTIVE_PLAN:
             newState.activePlan = {
@@ -96,6 +98,15 @@ export function plan(state = initialState, action) {
                 selected_event: null,
                 start: new Date()
             }
+            return newState;
+        case planConstants.USER_VOTED:
+            newState.activePlan.votes = newState.activePlan.votes.map(vote=>{
+                if(vote.event.event_id === action.event_id){
+                    var userVoted = vote.userVoted? false : true;
+                    vote = {...vote, userVoted };
+                }
+                return vote;
+            });
             return newState;
         case planConstants.CREATE_PLAN:
             return state;

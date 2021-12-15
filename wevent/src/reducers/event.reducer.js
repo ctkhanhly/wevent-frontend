@@ -45,6 +45,8 @@ export function event(state = initialState, action) {
         case eventConstants.CHANGE_NEIGHBORHOOD:
             newState.searchEvent.neighborhood = action.neighborhood;
             return newState;
+        case eventConstants.REMOVE_EVENTS:
+            newState.events = [];
         default:
             return state;
     }
