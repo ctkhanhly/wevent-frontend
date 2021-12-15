@@ -40,7 +40,9 @@ function Plan({ plan, addInvitee }) {
     maxWidth: 360,
     bgcolor: "background.paper",
   };
-  return (
+
+  var user = JSON.parse(localStorage.getItem('user'));     
+  return plan.host_id == user.email ? (
     <Container maxWidth="80vw">
       <Card sx={{ maxWidth: "70vw" }}>
         <CardHeader
@@ -94,7 +96,45 @@ function Plan({ plan, addInvitee }) {
         {/* <Button variant="contained" onClick={()=>history.push("/searchEvents")} >Add Event</Button> */}
       </Card>
     </Container>
-  );
+  ) : (
+    <Container maxWidth="80vw">
+      <Card sx={{ maxWidth: "70vw" }}>
+        <CardHeader
+          action={
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={plan.name}
+          subheader={date}
+        />
+        <CardContent>
+        
+          <List sx={style} primary="HI" component="nav" aria-label="mailbox folders">
+            <Typography variant="h6" component="div">
+              Invitees:
+            </Typography>
+            {plan.invitees.map((user_id, i) => {              
+              return (
+              <ListItem key={i} button>
+                <ListItemText primary={user_id} />
+              </ListItem>
+              )
+            })}
+          </List>         
+          {plan.votes.map((vote) => (
+            <EventForPlanFeed
+              event={vote.event}
+              users={vote.users}
+              key={vote.event.event_id}
+            />
+          ))}        
+        </CardContent>
+
+        {/* <Button variant="contained" onClick={()=>history.push("/searchEvents")} >Add Event</Button> */}
+      </Card>
+    </Container>
+  )
 }
 
 function mapState(state) {
