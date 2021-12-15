@@ -23,63 +23,76 @@ import {planActions} from '../../actions';
 import {EventForPlanFeed} from '../Event';
 import { history } from '../../utilities';
 
-function Plan({plan, addInvitee}) {
-    console.log('hello world', plan.name, plan);
-    var date = new Date(plan.start).toString();
-    const [inviteeText, setInviteeText] = useState("");
-    const inviteeOnChange = e => {
-        setInviteeText(e.target.value);
-    };
+function Plan({ plan, addInvitee }) {
+  console.log("hello world", plan.name, plan);
+  var date = new Date(plan.start).toString();
+  const [inviteeText, setInviteeText] = useState("");
+  const inviteeOnChange = (e) => {
+    setInviteeText(e.target.value);
+  };
 
-    var handleAddInvitee = function()
-    {
-      addInvitee(plan.plan_id, inviteeText);
-    };
-    
-    const style = {
-      width: '100%',
-      maxWidth: 360,
-      bgcolor: 'background.paper',
-    };
+  var handleAddInvitee = function () {
+    addInvitee(plan.plan_id, inviteeText);
+  };
 
-    return (
-      <Container maxWidth="80vw">
-    <Card sx={{ maxWidth: '70vw' }}>
-      <CardHeader
+  const style = {
+    width: "100%",
+    maxWidth: 360,
+    bgcolor: "background.paper",
+  };
+  return (
+    <Container maxWidth="80vw">
+      <Card sx={{ maxWidth: "70vw" }}>
+        <CardHeader
+          action={
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={plan.name}
+          subheader={date}
+        />
+        <CardContent>
         
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={plan.name}
-        subheader={date}
-      />
-      <CardContent>
-        <List sx={style} component="nav" aria-label="mailbox folders">
-            {
-                plan.invitees.map(user_id => {
-                    <ListItem button>
-                        <ListItemText primary={user_id} />
-                    </ListItem>
-                })
-            }
-            
-        </List>
-        <TextField id="filled-basic" label="Invitee Email Address" variant="filled" onChange={inviteeOnChange}/>
-        <Button variant="contained" onClick={handleAddInvitee} >Add Invitee</Button>
-        <Divider light />
-        {
-          plan.votes.map(vote=>
-            <EventForPlanFeed event={vote.event} users={vote.users} key={vote.event.event_id}/>
-          )
-        }
-        <Button variant="contained" onClick={()=>history.push("/searchEvents")} >Add Event</Button>
-      </CardContent>
-      
-      {/* <Button variant="contained" onClick={()=>history.push("/searchEvents")} >Add Event</Button> */}
-      
-    </Card>
+          <List sx={style} primary="HI" component="nav" aria-label="mailbox folders">
+            <Typography variant="h6" component="div">
+              Invitees:
+            </Typography>
+            {plan.invitees.map((user_id, i) => {              
+              return (
+              <ListItem key={i} button>
+                <ListItemText primary={user_id} />
+              </ListItem>
+              )
+            })}
+          </List>
+          <TextField
+            id="filled-basic"
+            label="User Email Address"
+            variant="filled"
+            onChange={inviteeOnChange}
+          />
+          <Button variant="contained" onClick={handleAddInvitee}>
+            Invite User
+          </Button>
+          <Divider light />
+          {plan.votes.map((vote) => (
+            <EventForPlanFeed
+              event={vote.event}
+              users={vote.users}
+              key={vote.event.event_id}
+            />
+          ))}
+          <Button
+            variant="contained"
+            onClick={() => history.push("/searchEvents")}
+          >
+            Add Event
+          </Button>
+        </CardContent>
+
+        {/* <Button variant="contained" onClick={()=>history.push("/searchEvents")} >Add Event</Button> */}
+      </Card>
     </Container>
   );
 }
