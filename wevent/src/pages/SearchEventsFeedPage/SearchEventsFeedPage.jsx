@@ -14,6 +14,8 @@ function SearchEventsPage({activePlan, event, addEvents, searchEvents})
 
     var handleAddEvents = function(e){
         addEvents(event.events, activePlan.plan_id);
+        history.push('/createPlan')
+        history.go(0)
     };
 
     var handleSearch = function(e){
