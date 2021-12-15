@@ -27,10 +27,13 @@ function PlanFeed({plan, addInvitee}) {
       <Container maxWidth="80vw">
     <Card sx={{ maxWidth: '70vw' , 'color': 'blue'}}>
       <CardHeader
-        title={plan.name}
+        title={plan.name}        
         subheader={date}
       />
       <CardContent>
+      <Typography variant="header1" color="text.primary">
+          Hosted By: {plan.host_id}
+        </Typography>
         <Typography variant="body2" color="text.secondary">
           <PeopleIcon/>{plan.invitees.join(', ')}
         </Typography>
