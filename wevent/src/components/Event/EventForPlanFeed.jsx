@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from "react";
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -31,7 +32,9 @@ function EventForPlanFeed({event, users, activePlan, vote, selectOfficialEvent})
         console.log(user.email, user, typeof user);
         var user_id = user.email;
         if(!user_id || !activePlan.plan_id) return;
-        vote(activePlan.plan_id, event.event_id, user_id);// assume current user is 1
+        vote(activePlan.plan_id, event.event_id, user_id);
+        updateLikes()
+        // assume current user is 1
         // window.setInterval(()=>setVoteColor(1-voteColor), 1000);
     }
 
@@ -48,8 +51,24 @@ function EventForPlanFeed({event, users, activePlan, vote, selectOfficialEvent})
       return activeVote.users.includes(JSON.parse(localStorage.getItem('user')).email)
     }
 
+    const [userliked, setUserliked] = useState(checkUserVoted())    
+    const [likecount, setLikecount] = useState(users.length)
+
+    const updateLikes = () => {
+        if (userliked) {
+            setLikecount(likecount - 1)            
+            setUserliked(false)
+        }
+        else {
+            setLikecount(likecount + 1)
+            setUserliked(true)
+            //increment
+        return
+    } 
+  } 
+
   return (
-    <Paper sx={{ p: 2, margin: 'auto', maxWidth: '100%', flexGrow: 1 }}>
+    <Paper sx={{ p: 2, margin: "auto", maxWidth: "100%", flexGrow: 1 }}>
       <Grid container spacing={2}>
         <Grid item>
           <ButtonBase sx={{ width: 128, height: 128 }}>
@@ -59,34 +78,43 @@ function EventForPlanFeed({event, users, activePlan, vote, selectOfficialEvent})
         <Grid item xs={12} sm container>
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
-           
               <Typography gutterBottom variant="subtitle1" component="div">
-                {event.name}
+                {event.event_name}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 {event.description}
               </Typography>
               <Typography variant="body2" gutterBottom>
-                <AccessTimeIcon/> {event.start} - {event.end}
+                <AccessTimeIcon /> {event.start} - {event.end}
               </Typography>
               <Typography variant="body2" gutterBottom>
-              <LocationOnIcon/> {event.full_address}
+                <LocationOnIcon /> {event.full_address}
               </Typography>
-              <Typography variant="body2" gutterBottom>
-                <ThumbUpAltIcon/> {users.length}
-              </Typography>
-              
-            </Grid>
-            <Grid item>
-                <IconButton aria-label="Vote for this event" onClick={updateVote}>
-                    <ThumbUpAltIcon style={{fill: checkUserVoted()? "green": "black"}} />
-                </IconButton>
+              <IconButton aria-label="Vote for this event" onClick={updateVote}>
+                <Typography variant="body2" gutterBottom>
+                  <ThumbUpAltIcon
+                    style={{ fill: checkUserVoted() ? "green" : "grey" }}
+                  />{" "}
+                  {likecount}
+                </Typography>
+              </IconButton>
             </Grid>
           </Grid>
           <Grid item>
-          <IconButton aria-label="Choose this event for this plan" onClick={updateOfficialEvent}>
-            <StarIcon style={{fill: activePlan.selected_event && activePlan.selected_event === event.event_id? "green": "black"}} />
-          </IconButton>
+            <IconButton
+              aria-label="Choose this event for this plan"
+              onClick={updateOfficialEvent}
+            >
+              <StarIcon
+                style={{
+                  fill:
+                    activePlan.selected_event &&
+                    activePlan.selected_event === event.event_id
+                      ? "green"
+                      : "grey",
+                }}
+              />
+            </IconButton>
           </Grid>
         </Grid>
       </Grid>
@@ -105,4 +133,5 @@ function mapState(state) {
   };
   
   const connectedRoomComponent = connect(mapState, actionCreators)(EventForPlanFeed);
+  
   export { connectedRoomComponent as EventForPlanFeed };
