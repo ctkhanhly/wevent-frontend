@@ -7,13 +7,13 @@ import { history } from '../../utilities';
 
 
 
-function SearchEventsPage({event, addEvents, searchEvents})
+function SearchEventsPage({activePlan, event, addEvents, searchEvents})
 {
     const [showFeed, setShowFeed] = useState(false);
     
 
     var handleAddEvents = function(e){
-        addEvents(event.events);
+        addEvents(event.events, activePlan.plan_id);
     };
 
     var handleSearch = function(e){

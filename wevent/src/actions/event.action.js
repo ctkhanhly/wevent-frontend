@@ -65,6 +65,7 @@ function changeCategory(category)
 
 function changeStart(start)
 {
+    console.log('changeStart', start);
     return (dispatch) => {
         dispatch(changed());
     }

@@ -17,27 +17,6 @@ class PlanFeedPage extends React.Component{
         this.state = { plans: this.props.plan.plans};
         let user_email = JSON.parse(localStorage.getItem("user"))?.email;
         this.props.getPlans(user_email);
-        // this.plans = [
-        //     {plan_id:"123", name:"random", votes : 
-        //     [
-        //     {event: {  name: "abc", event_id:"123", 
-        //     start: new Date().toString(), end: new Date().toString(),
-        //     imageUrl: "https://i.natgeofe.com/n/3861de2a-04e6-45fd-aec8-02e7809f9d4e/02-cat-training-NationalGeographic_1484324_square.jpg"
-        //     }, users: ["1"]}],
-        //     invitees: ["1"],
-        //     start: new Date().toString()},
-
-        //     {plan_id:"124", name:"random", votes : 
-        //         [
-        //         {event: {  name: "abc", event_id:"123", 
-        //             start: new Date().toString(), end: new Date().toString(),
-        //             imageUrl: "https://i.natgeofe.com/n/3861de2a-04e6-45fd-aec8-02e7809f9d4e/02-cat-training-NationalGeographic_1484324_square.jpg"
-        //             }, users: ["2"]}
-        //         ],
-        //         invitees: ["2"],
-        //         start: new Date().toString()}
-        // ];
-        // this.plans = [];
     }
 
     componentWillMount() {
@@ -49,15 +28,20 @@ class PlanFeedPage extends React.Component{
     componentDidUpdate()
     {
         console.log('componentDidUpdate', this.props.plan.plans);
-        // this.forceUpdate();
-        // this.plans = 
     }
 
     handleSelectPlan(e)
     {
-        this.props.selectPlan(e.target.id);
+        // console.log('handleSelectPlan', e.target, e.currentTarget, e.currentTarget.id);
+        // if(e.target !== e.currentTarget) return;
+        this.props.selectPlan(e.currentTarget.id);
         history.push("/updatePlan");
         history.go(0);
+        // setTimeout(()=> {
+        //     history.push("/updatePlan");
+        //     history.go(0);
+        // }, 7000);
+        
     };
 
     render() {
@@ -66,8 +50,8 @@ class PlanFeedPage extends React.Component{
             <Container maxWidth="80vw">
             {
                 this.props.plan.plans.map(p=> 
-                    (<div id={p.plan_id} onClick={THIS.handleSelectPlan} >
-                        <PlanFeed key={p.plan_id} plan={p}/>
+                    (<div id={p.plan_id} key={p.plan_id+"_div"} onClick={THIS.handleSelectPlan} >
+                        <PlanFeed key={p.plan_id} plan={p} />
                     </div>)
                 )
             }

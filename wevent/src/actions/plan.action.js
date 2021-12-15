@@ -3,6 +3,7 @@ import {apiClient} from '../aws';
 
 export const planActions = {
     getPlans,
+    removeActivePlan,
     changeTriggerOption,
     changeName,
     changeStart,
@@ -11,7 +12,7 @@ export const planActions = {
     vote,
     addEvents,
     addInvitee,
-    selectEvent
+    selectOfficialEvent
 };
 
 function getPlans(user_id)
@@ -19,12 +20,12 @@ function getPlans(user_id)
     return (dispatch) => {
         apiClient.getPlans(user_id)
         .then(result => {
-            console.log('create plan Result', result);
+            console.log('getPlans Result', result);
             dispatch(gotPlans(result.data.results));
             // return result.data.results;
         })
         .catch(error => {
-            console.log('Create plan error', error);
+            console.log('getPlans error', error);
             // return [];
         });
     }
@@ -34,6 +35,20 @@ function getPlans(user_id)
         return {
             type: planConstants.GET_PLANS,
             plans
+        }
+    }
+}
+
+function removeActivePlan()
+{
+    return (dispatch) => {
+        dispatch(removed());
+    }
+
+    function removed()
+    {
+        return {
+            type: planConstants.REMOVE_ACTIVE_PLAN
         }
     }
 }
@@ -85,6 +100,7 @@ function changeStart(start)
 
 function selectPlan(plan_id)
 {
+    console.log('selectPlan', plan_id);
     return (dispatch) => {
         dispatch(selected_plan());
     }
@@ -98,15 +114,26 @@ function selectPlan(plan_id)
     }
 }
 
-function createPlan(name, start, trigger_option, host_id)
+function createPlan(name, start, trigger_option, host_id, events)
 {
     return (dispatch) => {
-        start = new Date(start).getTime()
+        // start = new Date(start).getTime()
         console.log('createPlan', name, start, trigger_option, host_id);
+        start = start.getTime();
+        
         apiClient.createPlan(name, start, trigger_option, host_id)
         .then(result => {
             console.log('create plan Result', result);
-            dispatch(createdPlan(result.data.plan_id));
+            var plan_id = result.data.plan_id;
+            events.forEach(event=>{
+                apiClient.updatePlan({
+                    update_type: 'add_event',
+                    plan_id: plan_id,
+                    event_id: event.event_id
+                });
+            })
+            
+            dispatch(createdPlan(plan_id));
         })
         .catch(error => {
             console.log('Create plan error', error);
@@ -144,12 +171,20 @@ function vote(plan_id, event_id, user_id)
     }
 }
 
-function addEvents(events)
+function addEvents(events, plan_id)
 {
     return (dispatch) => {
         events.forEach(event => {
             if(event.selected)
             {
+                if(plan_id){
+                    apiClient.updatePlan({
+                        update_type: 'add_event',
+                        plan_id: plan_id,
+                        event_id: event.event_id
+                    });
+                }
+                
                 dispatch(added_event(event));
             }
         });
@@ -159,7 +194,7 @@ function addEvents(events)
     {
         return {
             type: planConstants.ADD_EVENT,
-            event
+            event, plan_id
         }
     }
 }
@@ -184,7 +219,7 @@ function addInvitee(plan_id, user_id)
     }
 }
 
-function selectEvent(plan_id, event_id)
+function selectOfficialEvent(plan_id, event_id)
 {
     return (dispatch) => {
         apiClient.updatePlan({
@@ -198,7 +233,7 @@ function selectEvent(plan_id, event_id)
     function selected_event()
     {
         return {
-            type: planConstants.SELECT_EVENT,
+            type: planConstants.SELECT_OFFICIAL_EVENT,
             plan_id, event_id
         }
     }

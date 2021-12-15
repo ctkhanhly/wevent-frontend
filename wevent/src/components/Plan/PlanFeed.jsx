@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -15,9 +15,13 @@ import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import {EventForPlanFeed} from '../Event';
+import {planActions} from '../../actions';
+import { connect } from 'react-redux';
+import TextField from '@mui/material/TextField';
 
-export function PlanFeed({plan}) {
-    var date = new Date(plan.start * 1000).toString();
+function PlanFeed({plan, addInvitee}) {
+    var date = new Date(plan.start).toString();
+
     console.log('Plan Feed', plan);
     return (
       <Container maxWidth="80vw">
@@ -30,16 +34,28 @@ export function PlanFeed({plan}) {
         <Typography variant="body2" color="text.secondary">
           <PeopleIcon/>{plan.invitees.join(', ')}
         </Typography>
+  
         <Divider light />
         {
           plan.votes.map(vote=>{
             <EventForPlanFeed event={vote.event} numVotes={vote.users.length}/>
           })
         }
-        {/* To do: create Get Plans API and display Event details for this plan */}
+        
       </CardContent>
       
     </Card>
     </Container>
   );
 }
+
+function mapState(state) {
+  return {};
+ }
+ 
+ const actionCreators = {
+   addInvitee: planActions.addInvitee
+ };
+ 
+ const connectedComponent = connect(mapState, actionCreators)(PlanFeed);
+ export { connectedComponent as PlanFeed };

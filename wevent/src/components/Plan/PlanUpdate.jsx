@@ -24,7 +24,8 @@ import {EventForPlanFeed} from '../Event';
 import { history } from '../../utilities';
 
 function Plan({plan, addInvitee}) {
-    var date = new Date(plan.start * 1000).toString();
+    console.log('hello world', plan.name, plan);
+    var date = new Date(plan.start).toString();
     const [inviteeText, setInviteeText] = useState("");
     const inviteeOnChange = e => {
         setInviteeText(e.target.value);
@@ -69,9 +70,9 @@ function Plan({plan, addInvitee}) {
         <Button variant="contained" onClick={handleAddInvitee} >Add Invitee</Button>
         <Divider light />
         {
-          plan.votes.map(vote=>{
-            <EventForPlanFeed event={vote.event}/>
-          })
+          plan.votes.map(vote=>
+            <EventForPlanFeed event={vote.event} users={vote.users} key={vote.event.event_id}/>
+          )
         }
         <Button variant="contained" onClick={()=>history.push("/searchEvents")} >Add Event</Button>
       </CardContent>
@@ -91,5 +92,5 @@ const actionCreators = {
   addInvitee: planActions.addInvitee
 };
 
-const connectedRoomComponent = connect(mapState, actionCreators)(Plan);
-export { connectedRoomComponent as PlanUpdate };
+const connectedComponent = connect(mapState, actionCreators)(Plan);
+export { connectedComponent as PlanUpdate };

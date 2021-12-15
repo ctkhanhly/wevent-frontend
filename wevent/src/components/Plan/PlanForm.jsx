@@ -17,16 +17,25 @@ function Plan({ activePlan,
                 changeTriggerOption,
                 changeName,
                 changeStart,
-                createPlan
+                createPlan,
+                removeActivePlan,
+                addEvents
 }) {
 
   var handleCreatePlan = function (){
     let user_email = JSON.parse(localStorage.getItem("user"))?.email;
+    var events = [];
+    if(activePlan.votes.length > 0)
+    {
+      events = activePlan.votes.map(vote=>vote.event);
+    }
     createPlan(
       activePlan.name, 
       activePlan.start,
       activePlan.trigger_option,
-      user_email);
+      user_email,
+      events);
+    
     
   };
 
@@ -39,9 +48,13 @@ function Plan({ activePlan,
     changeName(e.target.value);
   };
   var handleChangeStart = function (newValue){
-    console.log('start change', newValue);
+    console.log('start change', newValue, newValue instanceof Date);
     changeStart(newValue);
   };
+
+  var handleClear = function (){
+    removeActivePlan();
+  }
 
   return (
     <Container maxWidth="80vw">
@@ -78,7 +91,7 @@ function Plan({ activePlan,
 
         {
           activePlan.votes.map(vote=>
-            <EventForPlanFeed event={vote.event}/>
+            <EventForPlanFeed event={vote.event} users={vote.users}/>
           )
         }
 
@@ -87,6 +100,7 @@ function Plan({ activePlan,
         history.go(0);
       }} >Add Event</Button>
       <Button variant="contained" onClick={handleCreatePlan} >Create Plan</Button>
+      <Button variant="contained" onClick={handleClear} >Clear</Button>
 
       </div>
       
@@ -104,7 +118,9 @@ function mapState(state) {
   createPlan: planActions.createPlan,
   changeTriggerOption: planActions.changeTriggerOption,
   changeName: planActions.changeName,
-  changeStart: planActions.changeStart
+  changeStart: planActions.changeStart,
+  removeActivePlan: planActions.removeActivePlan,
+  addEvents: planActions.addEvents
  };
  
  const connectedRoomComponent = connect(mapState, actionCreators)(Plan);

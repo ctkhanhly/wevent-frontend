@@ -15,6 +15,7 @@ export default class NavBar extends Component {
     try {
       Auth.signOut();
       localStorage.removeItem('user');
+      localStorage.clear('persist:persistedStore');
       history.push("/");
       history.go(0);
     } catch(error) {

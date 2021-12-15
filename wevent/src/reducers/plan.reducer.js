@@ -1,3 +1,4 @@
+import { planActions } from '../actions';
 import {planConstants} from '../constants';
 
 /*
@@ -33,7 +34,7 @@ export function plan(state = initialState, action) {
             var plans = state.plans.filter(plan => plan.plan_id === action.plan_id);
             if(plans.length > 0)
             {
-                newState.activePlan = plans[0];
+                newState.activePlan = {...plans[0], start: new Date(plans[0].start)};
             }
             return newState;
         case planConstants.CHANGE_NAME:
@@ -53,32 +54,48 @@ export function plan(state = initialState, action) {
             
             if(!state.activePlan.invitees.includes(action.user_id))
                 newState.activePlan.invitees = [ ...newState.activePlan.invitees, action.user_id];
+                newState.plans = newState.plans.map(plan=>{
+                    if(plan.plan_id == action.plan_id){
+                        return {...plan, invitees: [...plan.invitees, action.user_id]};
+                    }
+                    return plan;
+                })
             return newState;
         case planConstants.ADD_EVENT:
             //plan_id, event_id
             if(state.activePlan.votes.filter(
-                vote => vote.event_id === action.event.event_id).length === 0)
+                vote => vote.event.event_id === action.event.event_id).length === 0)
             {
                 newState.activePlan.votes = [...newState.activePlan.votes,{event: action.event, users: []}];
             }
             return newState;
         case planConstants.VOTE:
             
-            if(state.activePlan.votes.filter(
-                vote => vote.event_id === action.event.event_id).length === 0)
-            {
-                newState.activePlan.votes = state.activePlan.votes.map(vote =>{
-                    if(vote.event_id === action.event_id)
-                    {
-                        if(!vote.users.includes(action.user_id))
-                            vote.users = [...vote.users, action.user_id];
+            newState.activePlan.votes = state.activePlan.votes.map(vote =>{
+                if(vote.event.event_id === action.event_id)
+                {
+                    if(!vote.users.includes(action.user_id))
+                        vote.users = [...vote.users, action.user_id];
+                    else{
+                        vote.users = vote.users.filter(user=>user!= action.user_id);
                     }
-                    return vote;
-                });
-            }
+                }
+                return vote;
+            });
             return newState;
-        case planConstants.SELECT_EVENT:
-            newState.activePlan.select_event = action.event_id;
+        case planConstants.SELECT_OFFICIAL_EVENT:
+            newState.activePlan.selected_event = action.event_id;
+            return newState;
+        case planConstants.REMOVE_ACTIVE_PLAN:
+            newState.activePlan = {
+                plan_id: null,
+                name: "",
+                trigger_option: "",
+                invitees: [],
+                votes: [],
+                selected_event: null,
+                start: new Date()
+            }
             return newState;
         case planConstants.CREATE_PLAN:
             return state;
