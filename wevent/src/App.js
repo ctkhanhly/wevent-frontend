@@ -12,7 +12,6 @@ import Loader from './components/Loader';
 import HomePage from './pages/HomePage';
 import CreatePlanPage from './pages/CreatePlanPage';
 import NavBar from './pages/NavBar/NavBar';
-import Footer from './pages/Footer/Footer';
 // import {PrivateRoute} from './components/PrivateRoute';
 
 class App extends Component {
@@ -41,8 +40,7 @@ class App extends Component {
                   {menu}
                   {/* <Route exact path="/" element={<HomePage/>} />
                   <Route exact path="/createPlan" element={<CreatePlanPage/>} /> */}
-              </Routes>
-              <Footer />
+              </Routes>              
             </div>
           </Router>  
         </Suspense>
