@@ -33,7 +33,7 @@ function Plan({ activePlan,
     createPlan(
       activePlan.name, 
       activePlan.start,
-      activePlan.trigger_option,
+      "manual",
       user_email,
       events);
     
@@ -83,12 +83,6 @@ function Plan({ activePlan,
                 onChange={handleChangeStart}
                 />
             </LocalizationProvider>
-        <TextField
-          id="trigger_option"
-          label="trigger_option"
-          defaultValue={activePlan.trigger_option}
-          onChange={handleChangeTriggerOption}
-        />
 
         {
           activePlan.votes.map(vote=>
