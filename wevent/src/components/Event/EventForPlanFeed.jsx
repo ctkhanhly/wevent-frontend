@@ -10,7 +10,7 @@ import StarIcon from '@mui/icons-material/Star';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import {planActions} from '../../actions';
+import {planActions, alertActions} from '../../actions';
 import { connect } from 'react-redux';
 
 const Img = styled('img')({
@@ -20,7 +20,7 @@ const Img = styled('img')({
   maxHeight: '100%',
 });
 
-function EventForPlanFeed({event, users, activePlan, vote, selectOfficialEvent}) {
+function EventForPlanFeed({event, users, activePlan, vote, selectOfficialEvent, changeMessage}) {
 
     var colors = ['green', 'black'];
     // var user_id = localStorage.getItem('user')?.email;
@@ -40,7 +40,15 @@ function EventForPlanFeed({event, users, activePlan, vote, selectOfficialEvent})
 
     var updateOfficialEvent = function()
     {
-      selectOfficialEvent(activePlan.plan_id, event.event_id);
+      var user = JSON.parse(localStorage.getItem('user'));
+      var user_id = user.email;
+      if(activePlan.host_id === user_id){
+        selectOfficialEvent(activePlan.plan_id, event.event_id);
+      }
+      else{
+        changeMessage(`Only owner ${activePlan.host_id} can choose the official event for this plan`, "error");
+      }
+      
     }
     var checkUserVoted = function()
     {
@@ -129,7 +137,8 @@ function mapState(state) {
   }
   const actionCreators = {
     vote: planActions.vote,
-    selectOfficialEvent: planActions.selectOfficialEvent
+    selectOfficialEvent: planActions.selectOfficialEvent,
+    changeMessage: alertActions.changeMessage
   };
   
   const connectedRoomComponent = connect(mapState, actionCreators)(EventForPlanFeed);
