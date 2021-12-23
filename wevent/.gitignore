@@ -25,3 +25,8 @@ yarn-error.log*
 /src/states
 /src/aws/test.js
 /src/components/Event/e1.jsx
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
