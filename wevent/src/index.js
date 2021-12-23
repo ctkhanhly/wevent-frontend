@@ -11,6 +11,14 @@ import 'bulma/css/bulma.min.css';
 import Amplify from 'aws-amplify';
 import config from './config';
 import * as serviceWorker from './serviceWorker';
+// var process = require('process');
+// console.log(process);
+// var os = require('os');
+
+
+  
+// Prints the output as an object
+// console.log(process.memoryUsage())
 
 Amplify.configure({
   Auth: {
@@ -40,3 +48,11 @@ ReactDOM.render(
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 serviceWorker.register();
+
+// var free =  os.freemem();
+// var total = os.totalmem();
+// var  used = total - free;
+// const used = process.memoryUsage.heapUsed / 1024 / 1024;
+// console.log(`The script uses approximately ${used} MB`);
+// console.log(`total: ${total}, free: ${free}`);
+// console.log(`${process.version}`);
