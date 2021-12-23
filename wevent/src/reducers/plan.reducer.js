@@ -20,7 +20,7 @@ const initialState = {
         invitees: [],
         votes: [],
         selected_event: null,
-        start: new Date()
+        start: null
     }
 };
 
@@ -39,13 +39,13 @@ export function plan(state = initialState, action) {
                 newState.activePlan = {...plans[0], start: new Date(plans[0].start)};
             }
             return newState;
-        case planConstants.CHANGE_NAME:
+        case planConstants.CHANGE_PLAN_NAME:
             newState.activePlan = {...state.activePlan, name : action.name};
             return newState;
-        case planConstants.CHANGE_START:
+        case planConstants.CHANGE_PLAN_START:
             newState.activePlan = {...state.activePlan, start : action.start};
             return newState;
-        case planConstants.CHANGE_TRIGGER_OPTION:
+        case planConstants.CHANGE_PLAN_TRIGGER_OPTION:
             newState.activePlan = {...state.activePlan, trigger_option : action.trigger_option};
             return newState;
         case planConstants.RECEIVE_PLAN_ID:

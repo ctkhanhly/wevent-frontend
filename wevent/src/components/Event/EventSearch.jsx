@@ -59,7 +59,9 @@ function EventSearch({  event,
 
     var startOnChange = function(newValue)
     {
-        changeStart(Math.floor(newValue.getTime() / 1000));
+        // changeStart(Math.floor(newValue.getTime() / 1000));
+        changeStart(newValue);
+        console.log(newValue instanceof Date);
         setDate(newValue);
     }
 

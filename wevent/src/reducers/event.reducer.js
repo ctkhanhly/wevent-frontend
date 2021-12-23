@@ -36,13 +36,13 @@ export function event(state = initialState, action) {
             });
             newState.events = [...newState.events];
             return newState;
-        case eventConstants.CHANGE_CATEGORY:
+        case eventConstants.CHANGE_EVENT_CATEGORY:
             newState.searchEvent.category = action.category;
             return newState;
-        case eventConstants.CHANGE_START:
+        case eventConstants.CHANGE_EVENT_START:
             newState.searchEvent.start = action.start;
             return newState;
-        case eventConstants.CHANGE_NEIGHBORHOOD:
+        case eventConstants.CHANGE_EVENT_NEIGHBORHOOD:
             newState.searchEvent.neighborhood = action.neighborhood;
             return newState;
         case eventConstants.REMOVE_EVENTS:

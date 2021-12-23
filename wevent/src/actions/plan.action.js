@@ -72,7 +72,7 @@ function changeTriggerOption(trigger_option)
     function changed()
     {
         return {
-            type: planConstants.CHANGE_TRIGGER_OPTION,
+            type: planConstants.CHANGE_PLAN_TRIGGER_OPTION,
             trigger_option
         }
     }
@@ -87,7 +87,7 @@ function changeName(name)
     function changed()
     {
         return {
-            type: planConstants.CHANGE_NAME,
+            type: planConstants.CHANGE_PLAN_NAME,
             name
         }
     }
@@ -102,7 +102,7 @@ function changeStart(start)
     function changed()
     {
         return {
-            type: planConstants.CHANGE_START,
+            type: planConstants.CHANGE_PLAN_START,
             start
         }
     }
@@ -128,8 +128,8 @@ function createPlan(name, start, trigger_option, host_id, events)
 {
     return (dispatch) => {
         // start = new Date(start).getTime()
-        console.log('createPlan', name, start, trigger_option, host_id);
-        start = start.getTime();
+        console.log('createPlan', name, start, trigger_option, host_id, start instanceof Date, typeof start, Date.parse(start));
+        start = Math.floor(Date.parse(start)/1000);
         if(!start || !name || !trigger_option || !host_id) return false;
         apiClient.createPlan(name, start, trigger_option, host_id)
         .then(result => {

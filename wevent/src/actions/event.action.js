@@ -15,6 +15,7 @@ function searchEvents(start, category, neighborhood)
     return (dispatch) => {
         dispatch(showSearching("Searching...", "info"));
         dispatch(clearEvents()); // clear events first to remove confusing details
+        start = Math.floor(Date.parse(start) / 1000);
         apiClient.searchEvents(neighborhood, start, category)
         .then(result => {
             var events = result.data.results;
@@ -89,7 +90,7 @@ function changeCategory(category)
     function changed()
     {
         return {
-            type: eventConstants.CHANGE_CATEGORY,
+            type: eventConstants.CHANGE_EVENT_CATEGORY,
             category
 
         }
@@ -106,7 +107,7 @@ function changeStart(start)
     function changed()
     {
         return {
-            type: eventConstants.CHANGE_START,
+            type: eventConstants.CHANGE_EVENT_START,
             start
         }
     }
@@ -121,7 +122,7 @@ function changeNeighborhood(neighborhood)
     function changed()
     {
         return {
-            type: eventConstants.CHANGE_NEIGHBORHOOD,
+            type: eventConstants.CHANGE_EVENT_NEIGHBORHOOD,
             neighborhood
         }
     }

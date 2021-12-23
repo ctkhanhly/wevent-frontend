@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import {test} from './aws';
 import {store, persistor} from './store.js';
 import { Provider } from 'react-redux';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+// import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'bulma/css/bulma.min.css';
 import Amplify from 'aws-amplify';
 import config from './config';
